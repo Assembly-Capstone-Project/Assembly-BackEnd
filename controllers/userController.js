@@ -3,8 +3,8 @@ const UserModels = require("../models/userModel");
 async function getSingleUser (req, res){
   // create a variable that holds all the games
   const userId = req.params.id;
-  const user = await UserModels.getSingleUseFromDB(userId);
-  const userFriends = await UserModels.getUserFriendsFromDB();
+  const user = await UserModels.getSingleUserFromDB(userId);
+  // const userFriends = await UserModels.getUserFriendsFromDB();
   res.send(user);
 };
 
