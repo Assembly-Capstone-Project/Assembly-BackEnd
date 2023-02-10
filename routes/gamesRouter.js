@@ -1,11 +1,12 @@
 // All games routes go here
+// this route handles all request that starts with "/games"
 const express = require('express')
 const router = express.Router()
+const {getAllGames , getSingleGame} = require('../controllers/gamesController')
 
 //Endpoint: /Games
-router.get("/", (req, res) => { // receive a list of games - this router is the function that handles the request and gives the response
-    res.send("here are the games")
-  })
+router.get("/", getAllGames)
+router.get("/:id", getSingleGame);
 
   
 /* 

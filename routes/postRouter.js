@@ -1,8 +1,21 @@
 const express = require('express')
 const router = express.Router()
+const {getAllPost, getSinglePost} = require("../controllers/postController")
 
-router.get("/", (req, res) => { // receive a list of games
-    res.send("here are the post")
-  })
+router.get("/", getAllPost)
+router.get("/:id", getSinglePost)
 
 module.exports = router
+
+/*
+R: 
+Step 1: require express
+Step 2: express.Router()
+Step 3: destructure functions 
+Step 3: router.get("/" route , "ControllerFunctionName")
+Step 4: module.exports = router
+
+C:
+
+M:
+*/

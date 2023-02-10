@@ -1,11 +1,12 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const { getSingleUser , getUsers} = require("../controllers/userController");
 
-router.get("/", (req, res) => { // receive a list of games
-    res.send("here are the users")
-  })
+router.get("/", getUsers);
+router.get("/:id", getSingleUser);
 
-module.exports = router
+
+module.exports = router;
 
 /* 
 possible routes:

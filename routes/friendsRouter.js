@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const {getAllFriends , getSingleFriend} = require("../controllers/friendsController")
 
-router.get("/", (req, res) => { // receive a list of games
-    res.send("here are the friendslist")
-  })
+router.get("/", getAllFriends)
+router.get("/:id", getSingleFriend)
 
 module.exports = router
