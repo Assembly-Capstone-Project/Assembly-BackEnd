@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 exports.seed = async function(knex) {
   await knex('users').del()
   await knex('friends').del()
@@ -6,10 +7,10 @@ exports.seed = async function(knex) {
   // await knex('friekne
   // Deletes ALL existing entries
   await knex('users').insert([
-    {username: 'Mark Giddings', password: "login" , email: "marcylabschool@gmail.com"},
-    {username: 'Mablevi', password: "login" , email: "warcybadschool@gmail.com"},
-    {username: 'Glitch202', password: "login" , email: "devy@gmail.com"},
-    {username: 'Zomo', password: "login" , email: "dreyes@gmail.com"},
+    {username: 'Mark Giddings', password: bcrypt.hashSync('123', 10) , email: "marcylabschool@gmail.com"},
+    {username: 'Mablevi', password: bcrypt.hashSync('123', 10) , email: "warcybadschool@gmail.com"},
+    {username: 'Glitch202', password: bcrypt.hashSync('123', 10) , email: "devy@gmail.com"},
+    {username: 'Zomo', password: bcrypt.hashSync('123', 10) , email: "dreyes@gmail.com"},
   ]);
 
   await knex('friends').insert([
