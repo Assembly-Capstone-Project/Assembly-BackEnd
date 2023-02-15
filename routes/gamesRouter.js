@@ -3,10 +3,11 @@
 const express = require('express')
 const router = express.Router()
 const {getAllGames , getSingleGame} = require('../controllers/gamesController')
+const authenticate = require("../middleware/authenticate")
 
 //Endpoint: /Games
-router.get("/", getAllGames)
-router.get("/:id", getSingleGame);
+router.get("/", authenticate, getAllGames)
+router.get("/:id", authenticate, getSingleGame);
 
   
 /* 

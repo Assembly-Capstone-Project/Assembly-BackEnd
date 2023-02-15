@@ -1,10 +1,74 @@
 const UserModels = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const validateInputs = (username, email, password) => {
+  const usernameRegex = /\W/i;
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (
+    username.length < 6 ||
+    username.length > 30 ||
+    usernameRegex.test(username)
+  ) {
+    return false;
+  }
+  if (emailRegex.test(email.toLowerCase()) === false) return false;
+  if (password.length < 8) return false;
+  return true;
+};
+
+/**
+ * Registers user's credentials, adding them to the database using the User model
+ * @param {object} req - The request object containing users credentials
+ * @param {object} res - The response object used to send a repsonse back to the client
+ */
+const registerUser = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    if (validateInputs(username, email, password) === false) {
+      throw Error("Invalid Credentials.");
+    }
+    const saltRounds = 7;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    await UserModels.postUserToDB(
+            username,
+            email,
+            hashedPassword
+          );
+    const token = jwt.sign({ username: username }, process.env.AUTH_KEY);
+    res.cookie("token", token).sendStatus(200);
+  } catch (err) {
+    console.log(err)
+    res.status(500).send(err);
+  }
+};
+
+/**
+ * Gives the user a token after verifying user's entered credentials
+ * @param {object} req - The request object containing users credentials
+ * @param {object} res - The response object used to send a repsonse back to the client
+ */
+const loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await UserModels.getUserByUsername(username);
+    if (!user) {
+      return res.status(401).send("User Does Not Exist.");
+    }
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (isValidPassword) {
+      const token = jwt.sign({ username: user.username }, process.env.AUTH_KEY);
+      res.cookie("safeToken", token).status(200).send(JSON.stringify(user));
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
 
 async function getSingleUser(req, res) {
   const userId = req.params.id;
   const user = await UserModels.getSingleUserFromDB(userId);
-  // const userFriends = await UserModels.getUserFriendsFromDB();
   if (user) {
     res.send(user);
   } else {
@@ -17,34 +81,7 @@ async function getUsers(req, res) {
   res.send(Users);
 }
 
-async function registerUser(req, res) {
-  try {
-    const { username, email, password } = req.body;
-    let hashedPassword = bcrypt.hashSync(password, 10);
-    const newUser = await UserModels.postUserToDB(
-      username,
-      email,
-      hashedPassword
-    );
-    res.send(newUser);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-}
 
-async function loginUser(req, res) {
-  try {
-    let { username, password } = req.body;
-    console.log(username);
-    const foundUser = await UserModels.getUserByUsername(username);
-    if(foundUser && bcrypt.compareSync(password, foundUser.password)){
-    console.log(foundUser)
-    res.send(foundUser);
-    }
-  } catch (e) {
-    res.status(401).send("invalid username or password");
-  }
-}
 
 module.exports = {
   getSingleUser,
@@ -53,16 +90,3 @@ module.exports = {
   loginUser,
 };
 
-/*
-Example piece
-// async function getSingleUser (req, res) {
-//   const userId = req.params.id
-//   const user = await UserModel.getSingleUserFromDB(userId) //async
-//   if(user){
-//     const usersRobots = await UserModel.getUsersRobotsFromDB(userId)
-//     res.send({user, usersRobots})
-//   }else{
-//     res.sendStatus(404)
-//   }
-// }
-*/
