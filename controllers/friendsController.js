@@ -13,14 +13,6 @@ async function getSingleFriend(req, res){
   res.send(friend);
 };
 
-// getGame()
-
-// createGame()
-
-// deleteGame()
-
-// updateGame()
-
 // in this object we can list out all functions
 module.exports = {
   getAllFriends,

@@ -9,7 +9,7 @@ require("dotenv").config();
  * @param {object} next - The next function used to pass the req to the next middleware function
  */
 const authenticate = async (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies;
 
   if (!token) return res.status(401).send("Token not found, please login.");
 

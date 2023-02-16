@@ -33,3 +33,10 @@ exports.seed = async function(knex) {
     {post_image: 'url-3dpdnapsa', user_id: 3},
   ]);
 };
+
+
+// {
+//   "username": "",
+//   "email": "",
+//   "password": "123456789"
+// }

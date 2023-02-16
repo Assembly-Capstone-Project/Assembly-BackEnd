@@ -3,8 +3,8 @@ const router = express.Router()
 const {getAllPost, getSinglePost} = require("../controllers/postController")
 const authenticate = require('../middleware/authenticate')
 
-router.get("/", authenticate, getAllPost)
-router.get("/:id", authenticate, getSinglePost)
+router.get("/", getAllPost)
+router.get("/:id", getSinglePost)
 
 module.exports = router
 

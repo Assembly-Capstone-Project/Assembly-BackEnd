@@ -5,7 +5,7 @@ const authenticate = require("../middleware/authenticate")
 const {getSingleUser, getUsers, registerUser, loginUser} = require("../controllers/userController");
 
 router.get("/", getUsers);
-router.get("/:id", authenticate, getSingleUser);
+router.get("/:id", getSingleUser);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 // router.post("/register", register);
