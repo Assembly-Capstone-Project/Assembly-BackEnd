@@ -1,17 +1,17 @@
-const FriendsModels = require("../models/FriendsModel");
+const FavoriteModel = require("../models/favoriteModel");
 
-async function getAllFavorites(req, res){
-  const allFavorites = await FavoritesModels.getFavoritesFromDB();
+async function getAllFavorites(req, res) {
+  const allFavorites = await FavoriteModel.getFavoritesFromDB();
   res.send(allFavorites);
-};
+}
 
-async function getSingleFavorite(req, res){
+async function getSingleFavorite(req, res) {
   const favoriteId = req.params.id;
-  const favorite = await FavoriteModels.getSingleFavoriteFromDB(favoriteId);
+  const favorite = await FavoriteModel.getSingleFavoriteFromDB(favoriteId);
   res.send(favorite);
-};
+}
 
 module.exports = {
   getAllFavorites,
-  getSingleFavorite
+  getSingleFavorite,
 };

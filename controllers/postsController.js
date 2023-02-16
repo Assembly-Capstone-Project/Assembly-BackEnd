@@ -1,4 +1,4 @@
-const PostsModels = require("../models/PostModel");
+const PostsModels = require("../models/postsModel");
 
 async function getAllPost(req, res){
   // receive a list of games - this router is the function that handles the request and gives the response

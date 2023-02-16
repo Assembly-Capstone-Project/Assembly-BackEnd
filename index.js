@@ -4,9 +4,9 @@ const cors = require("cors");
 app.use(express.json());
 const PORT = process.env.PORT || 8000;
 const gamesRouter = require("./routes/gamesRouter");
-const usersRouter = require("./routes/userRouter");
+const usersRouter = require("./routes/usersRouter");
 const friendsRouter = require("./routes/friendsRouter");
-const postRouter = require("./routes/postRouter");
+const postsRouter = require("./routes/postsRouter");
 const favoritesRouter = require("./routes/favoritesRouter")
 
 // EndPoints
@@ -15,11 +15,11 @@ app.use("/games", gamesRouter);
 
 app.use("/friends", friendsRouter);
 
-app.use("/posts", postRouter);
+app.use("/posts", postsRouter);
 
 app.use("/users", usersRouter);
 
-app.use("./favorites" , friendsRouter)
+app.use("/favorites" , favoritesRouter)
 
 app.listen(PORT, function () {
   console.log("Server started on port: ", PORT);

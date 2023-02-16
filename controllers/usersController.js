@@ -1,4 +1,4 @@
-const UserModels = require("../models/userModel");
+const UserModels = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -11,18 +11,14 @@ const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     // if (validateInputs(username, email, password) === false)
-      // throw Error("Invalid Credentials.");
+    // throw Error("Invalid Credentials.");
     const saltRounds = 7;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    await UserModels.postUserToDB(
-            username,
-            email,
-            hashedPassword
-          );
+    await UserModels.postUserToDB(username, email, hashedPassword);
     const token = jwt.sign({ username: username }, process.env.AUTH_KEY);
     res.cookie("token", token).sendStatus(200);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).send(err);
   }
 };
@@ -68,11 +64,9 @@ async function getUsers(req, res) {
   res.send(Users);
 }
 
-
 module.exports = {
   getSingleUser,
   getUsers,
   registerUser,
   loginUser,
 };
-

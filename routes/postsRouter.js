@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {getAllPost, getSinglePost} = require("../controllers/postController")
+const {getAllPost, getSinglePost} = require("../controllers/postsController")
 const authenticate = require('../middleware/authenticate')
 
 router.get("/", getAllPost)

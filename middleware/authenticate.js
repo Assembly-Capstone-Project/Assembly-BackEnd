@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
+const User = require("../models/usersModel");
 require("dotenv").config();
 
 /**
@@ -29,4 +29,4 @@ const authenticate = async (req, res, next) => {
   next();
 };
 
-module.exports = authenticate
+module.exports = authenticate;
