@@ -8,8 +8,27 @@ require("dotenv").config();
  * @param {object} res - The response object used to send a repsonse back to the client
  * @param {object} next - The next function used to pass the req to the next middleware function
  */
+
+// const jwt = require('jsonwebtoken');
+
+// module.exports = (req, res, next) => {
+//     try {
+//         const decoded = jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_KEY)
+//         req.userId = decoded.userId
+//         next()
+//     } catch (err) {
+//         switch (err.message) {
+//             case 'jwt expired':
+//                 const error = throw new Error('token expired')
+//                 break;
+//             default:
+//                 errorHandler(res, err)
+//         }
+//     }
+// }
 const authenticate = async (req, res, next) => {
-  const token = req.cookies;
+  // "Bearer eyhksjdbakljbjkcb387irtgw2iurfg2ifugb2fiuo24g4fi2wugfb" -> ["Bearer", "eyhksjdbakljbjkcb387irtgw2iurfg2ifugb2fiuo24g4fi2wugfb"] => "eyhksjdbakljbjkcb387irtgw2iurfg2ifugb2fiuo24g4fi2wugfb"
+  const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) return res.status(401).send("Token not found, please login.");
 

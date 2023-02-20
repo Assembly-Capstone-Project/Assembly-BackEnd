@@ -12,11 +12,12 @@ const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
     // if (validateInputs(username, email, password) === false)
     // throw Error("Invalid Credentials.");
+    console.log(username, email, password)
     const saltRounds = 7;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    await UserModels.postUserToDB(username, email, hashedPassword);
+    const user = await UserModels.postUserToDB(username, email, hashedPassword);
     const token = jwt.sign({ username: username }, process.env.AUTH_KEY);
-    res.cookie("token", token).sendStatus(200);
+    res.status(200).json({user, token});
   } catch (err) {
     console.log(err);
     res.status(500).send(err);

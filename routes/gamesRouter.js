@@ -6,7 +6,7 @@ const {getAllGames , getSingleGame} = require('../controllers/gamesController')
 const authenticate = require("../middleware/authenticate")
 
 //Endpoint: /Games
-router.get("/", getAllGames)
+router.get("/", authenticate, getAllGames)
 router.get("/:id", getSingleGame);
 
   
