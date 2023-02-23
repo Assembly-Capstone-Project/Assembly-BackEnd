@@ -1,10 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const {getAllPost, getSinglePost} = require("../controllers/postsController")
+const {getAllPost, getSinglePost, createPost, deleteSinglePost} = require("../controllers/postsController")
 const authenticate = require('../middleware/authenticate')
 
 router.get("/", getAllPost)
 router.get("/:id", getSinglePost)
+router.post("/", authenticate, createPost)
+router.delete("/", authenticate, deleteSinglePost)
+
+
 
 module.exports = router
 

@@ -10,7 +10,7 @@ class GamesModel {
   // get a single game.
   static async getSingleGameFromDB(id) {
     const query = await pool.query(
-      "SELECT id,name,platform,rating FROM games WHERE id = $1",
+      "SELECT id,name,platform,rating,url FROM games WHERE id = $1",
       [id]
     );
     return query.rows[0];

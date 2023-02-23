@@ -10,16 +10,12 @@ require("dotenv").config();
 const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    // if (validateInputs(username, email, password) === false)
-    // throw Error("Invalid Credentials.");
-    console.log(username, email, password)
     const saltRounds = 7;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user = await UserModels.postUserToDB(username, email, hashedPassword);
     const token = jwt.sign({ username: username }, process.env.AUTH_KEY);
-    res.status(200).json({user, token});
+    res.status(200).json({ user, token });
   } catch (err) {
-    console.log(err);
     res.status(500).send(err);
   }
 };
@@ -33,16 +29,14 @@ const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await UserModels.getUserByUsername(username);
-
     if (!user) {
       return res.status(401).send("User Does Not Exist.");
     }
-
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (isValidPassword) {
       const token = jwt.sign({ username: user.username }, process.env.AUTH_KEY);
-      res.cookie("safeToken", token).status(200).send(JSON.stringify(user));
+      res.status(200).send(JSON.stringify({ token, user }));
     }
   } catch (err) {
     res.status(500).send(err);

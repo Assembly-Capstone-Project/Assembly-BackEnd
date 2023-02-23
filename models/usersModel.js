@@ -23,11 +23,9 @@ class UserModel {
   }
 
   static async getUserByUsername(username) {
-    console.log(username)
     let query = await pool.query("SELECT * FROM users WHERE username = $1;", [
       username
     ]);
-    console.log(query)
     return query.rows[0];
   }
 }

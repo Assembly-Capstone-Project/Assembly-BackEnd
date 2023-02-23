@@ -1,22 +1,30 @@
+const { urlencoded } = require("express");
 const pool = require("../db");
 
 class PostsModel {
   static async getPostsFromDB() {
-    const database = "SELECT * FROM posts";
+    const database = "SELECT posts.id, users_id, games_id, name, platform, rating, url, username FROM posts JOIN games ON posts.games_id = games.id JOIN users ON posts.users_id = users.id";
     const query = await pool.query(database);
     return query.rows;
   }
 
-  // get a single game.
   static async getSinglePostFromDB(id) {
-    const query = await pool.query("SELECT * FROM posts WHERE post_id = $1", [
+    const query = await pool.query("SELECT posts.id, users_id, games_id FROM posts JOIN users ON posts.users_id = users.id WHERE posts.id = $1", [
       id,
     ]);
     return query.rows[0];
   }
+  // Post a post to from the database
+  static async createPostsToDB(users_id, games_id) {
+    let query = await pool.query(
+      "INSERT INTO posts (users_id , games_id ) VALUES ($1, $2) RETURNING *;",
+      [users_id, games_id]
+    );
+    return query.rows[0];
+  }
 
-  static async deleteFriendFromDB(id) {
-    const query = await pool.query("DELETE * FROM posts WHERE post_id = $1", [
+  static async deletePostFromDB(id) {
+    const query = await pool.query("DELETE FROM posts WHERE id = $1", [
       id,
     ]);
     return query.rows[0];

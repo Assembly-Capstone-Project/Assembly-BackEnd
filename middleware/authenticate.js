@@ -42,7 +42,6 @@ const authenticate = async (req, res, next) => {
   );
 
   const user = await User.getUserByUsername(username);
-
   if (!user) return res.status(404).send("No user found.");
   req.userId = user.id;
   next();

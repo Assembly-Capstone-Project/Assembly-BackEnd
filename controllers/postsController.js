@@ -1,22 +1,49 @@
 const PostsModels = require("../models/postsModel");
 
-async function getAllPost(req, res){
+async function getAllPost(req, res) {
   // receive a list of games - this router is the function that handles the request and gives the response
   // create a variable that holds all the games
   const allPost = await PostsModels.getPostsFromDB();
   res.send(allPost);
-};
+}
 
-async function getSinglePost(req, res){
+async function getSinglePost(req, res) {
   const postId = req.params.id;
   const post = await PostsModels.getSinglePostFromDB(postId);
   res.send(post);
+}
+
+const createPost = async (req, res) => {
+  try {
+    const { games_id } = req.body;
+    const { userId } = req;
+    await PostsModels.createPostsToDB(userId, games_id);
+    const allPost = await PostsModels.getPostsFromDB();
+    res.status(200).send(allPost);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
+
+async function deleteSinglePost(req, res) {
+  const postId = req.body.id;
+  const userId = req.userId;
+  const post = await PostsModels.getSinglePostFromDB(postId);
+  if(userId === post.users_id) {
+    await PostsModels.deletePostFromDB(postId);
+    const allPost = await PostsModels.getPostsFromDB();
+    res.status(200).send(allPost);
+  } else {
+    res.status(500).send("Cannot delete post from another user")
+  }
+}
 
 // in this object we can list out all functions
 module.exports = {
-    getAllPost,
-    getSinglePost
+  getAllPost,
+  getSinglePost,
+  createPost,
+  deleteSinglePost,
 };
 
 // getGame()
@@ -26,18 +53,6 @@ module.exports = {
 // deleteGame()
 
 // updateGame()
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 R: 
