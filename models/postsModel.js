@@ -3,15 +3,17 @@ const pool = require("../db");
 
 class PostsModel {
   static async getPostsFromDB() {
-    const database = "SELECT posts.id, users_id, games_id, name, platform, rating, url, username FROM posts JOIN games ON posts.games_id = games.id JOIN users ON posts.users_id = users.id";
+    const database =
+      "SELECT posts.id, users_id, games_id, name, platform, rating, url, username FROM posts JOIN games ON posts.games_id = games.id JOIN users ON posts.users_id = users.id ORDER BY posts DESC";
     const query = await pool.query(database);
     return query.rows;
   }
 
   static async getSinglePostFromDB(id) {
-    const query = await pool.query("SELECT posts.id, users_id, games_id FROM posts JOIN users ON posts.users_id = users.id WHERE posts.id = $1", [
-      id,
-    ]);
+    const query = await pool.query(
+      "SELECT posts.id, users_id, games_id FROM posts JOIN users ON posts.users_id = users.id WHERE posts.id = $1",
+      [id]
+    );
     return query.rows[0];
   }
   // Post a post to from the database
@@ -24,9 +26,7 @@ class PostsModel {
   }
 
   static async deletePostFromDB(id) {
-    const query = await pool.query("DELETE FROM posts WHERE id = $1", [
-      id,
-    ]);
+    const query = await pool.query("DELETE FROM posts WHERE id = $1", [id]);
     return query.rows[0];
   }
 }

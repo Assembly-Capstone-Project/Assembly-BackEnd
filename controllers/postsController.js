@@ -47,13 +47,9 @@ module.exports = {
 };
 
 // getGame()
-
 // createGame()
-
 // deleteGame()
-
 // updateGame()
-
 /*
 R: 
 Step 1: require express
