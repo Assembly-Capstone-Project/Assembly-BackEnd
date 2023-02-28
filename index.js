@@ -20,7 +20,9 @@ app.use("/posts", postsRouter);
 app.use("/users", usersRouter);
 
 app.use("/favorites" , favoritesRouter)
-
+app.get("/" , (res, req) => {
+  res.send("This is a test")
+})
 app.listen(PORT, function () {
   console.log("Server started on port: ", PORT);
 });
