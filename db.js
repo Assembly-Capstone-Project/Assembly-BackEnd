@@ -10,12 +10,12 @@ const connectionLocal = {
 
 // this line of code is for heroku or netify to run the backend from a third party host
 const connectionProduction = {
-  connectionString: process.env.DATABASE_URL, 
+  connectionString: connectionString, 
   ssl: {rejectUnauthorized: false}
 }
 
 
-const pool = new Pool(process.env.NODE_ENV === 'production' ? connectionString : connectionLocal)
+const pool = new Pool(process.env.NODE_ENV === 'production' ? connectionProduction  : connectionLocal)
 
 module.exports = pool
 // pool is an object given to us by the pg library,
