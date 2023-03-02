@@ -16,12 +16,8 @@ module.exports = {
     }
   },
   production: {
-    client: 'postgresql',
-    connection: {
-      database: 'assembly-backend',
-      user:     'username',
-      password: 'password'
-    },
+    client: 'pg',
+    connection: "postgresql://postgres:m2awBeVZZ4sbcIOlF1Pq@containers-us-west-178.railway.app:7639/railway",
     pool: {
       min: 2,
       max: 10
