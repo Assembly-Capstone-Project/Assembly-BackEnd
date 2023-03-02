@@ -1,4 +1,3 @@
-const { urlencoded } = require("express");
 const pool = require("../db");
 
 class PostsModel {
